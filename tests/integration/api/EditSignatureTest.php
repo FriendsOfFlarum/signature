@@ -14,6 +14,8 @@ namespace FoF\Signature\Tests\integration\api;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
 use Flarum\User\User;
+use PHPUnit\Framework\Attributes\Test;
+use Flarum\Group\Group;
 
 class EditSignatureTest extends TestCase
 {
@@ -26,7 +28,7 @@ class EditSignatureTest extends TestCase
         $this->extension('fof-signature');
 
         $this->prepareDatabase([
-            'users' => [
+            User::class => [
                 $this->normalUser(),
                 ['id' => 3, 'username' => 'normal2', 'email' => 'normal2@machine.local', 'is_email_confirmed' => true, 'signature' => 'too-obscure'],
                 ['id' => 4, 'username' => 'moderator', 'email' => 'moderator@machine.local', 'is_email_confirmed' => true, 'signature' => 'too-obscure2'],
@@ -38,7 +40,7 @@ class EditSignatureTest extends TestCase
                 ['permission' => 'haveSignature', 'group_id' => 4],
                 ['permission' => 'moderateSignature', 'group_id' => 4],
             ],
-            'groups' => [
+            Group::class => [
                 ['id' => 5, 'name_singular' => 'TestSig', 'name_plural' => 'TestSigs', 'color' => '#FF0000', 'icon' => 'fas fa-user'],
             ],
             'group_user' => [
@@ -47,9 +49,7 @@ class EditSignatureTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_can_edit_own_signature_when_allowed_to_have_one()
     {
         $response = $this->send(
@@ -80,9 +80,7 @@ class EditSignatureTest extends TestCase
         $this->assertEquals('<t>This is my new signature</t>', $user->signature);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_with_edit_permission_cannot_edit_admin_signature()
     {
         $response = $this->send(

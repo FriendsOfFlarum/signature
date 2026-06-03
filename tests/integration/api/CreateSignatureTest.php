@@ -14,6 +14,8 @@ namespace FoF\Signature\Tests\integration\api;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
 use Flarum\User\User;
+use PHPUnit\Framework\Attributes\Test;
+use Flarum\Group\Group;
 
 class CreateSignatureTest extends TestCase
 {
@@ -26,13 +28,13 @@ class CreateSignatureTest extends TestCase
         $this->extension('fof-signature');
 
         $this->prepareDatabase([
-            'users' => [
+            User::class => [
                 $this->normalUser(),
                 ['id' => 3, 'username' => 'normal2', 'email' => 'normal2@machine.local', 'is_email_confirmed' => true],
                 ['id' => 4, 'username' => 'moderator', 'email' => 'moderator@machine.local', 'is_email_confirmed' => true],
                 ['id' => 5, 'username' => 'normal3', 'email' => 'normal3@machine.local', 'is_email_confirmed' => true],
             ],
-            'groups' => [
+            Group::class => [
                 ['id' => 5, 'name_singular' => 'TestSig', 'name_plural' => 'TestSigs', 'color' => '#FF0000', 'icon' => 'fas fa-user'],
             ],
             'group_permission' => [
@@ -47,9 +49,7 @@ class CreateSignatureTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_cannot_create_signature_without_permission()
     {
         $response = $this->send(
@@ -76,9 +76,7 @@ class CreateSignatureTest extends TestCase
         $this->assertNull($user->signature);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_can_create_signature_with_permission()
     {
         $response = $this->send(
@@ -111,9 +109,7 @@ class CreateSignatureTest extends TestCase
         $this->assertEquals('<t>This is my signature</t>', $user->signature);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_cannot_create_signature_for_other_user()
     {
         $response = $this->send(
@@ -140,9 +136,7 @@ class CreateSignatureTest extends TestCase
         $this->assertNull($user->signature);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_with_permission_can_create_signature_for_other_user_who_can_have_signature()
     {
         $response = $this->send(
@@ -176,9 +170,7 @@ class CreateSignatureTest extends TestCase
         $this->assertEquals('<t>This is my signature</t>', $user->signature);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_with_permission_cannot_create_signature_for_other_user_who_cannot_have_signature()
     {
         $response = $this->send(
