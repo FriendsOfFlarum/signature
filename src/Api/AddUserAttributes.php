@@ -17,11 +17,8 @@ use FoF\Signature\Formatter\SignatureFormatter;
 
 class AddUserAttributes
 {
-    protected SignatureFormatter $formatter;
-
-    public function __construct(SignatureFormatter $formatter)
+    public function __construct(protected SignatureFormatter $formatter)
     {
-        $this->formatter = $formatter;
     }
 
     public function __invoke(UserSerializer $serializer, User $user, array $attributes): array

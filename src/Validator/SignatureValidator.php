@@ -20,22 +20,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SignatureValidator extends AbstractValidator
 {
-    protected SettingsRepositoryInterface $settings;
-    protected SignatureFormatter $formatter;
-
-    public function __construct(Factory $validator, TranslatorInterface $translator, SettingsRepositoryInterface $settings, SignatureFormatter $formatter)
+    public function __construct(Factory $validator, TranslatorInterface $translator, protected SettingsRepositoryInterface $settings, protected SignatureFormatter $formatter)
     {
         parent::__construct($validator, $translator);
-
-        $this->settings = $settings;
-        $this->formatter = $formatter;
 
         $this->validator->extend('signature_images', function ($attribute, $value, $parameters, $validator) {
             return $this->validateSignatureImages($value);
         });
     }
 
-    protected function getRules()
+    protected function getRules(): array
     {
         return [
             'signature' => [
