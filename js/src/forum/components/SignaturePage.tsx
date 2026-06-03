@@ -33,7 +33,7 @@ export default class SignaturePage extends UserPage {
       items.add(
         'edit',
         <Button className="Button" icon="fas fa-edit" onclick={() => this.onEdit()}>
-          {app.translator.trans('signature.forum.buttons.edit')}
+          {app.translator.trans('fof-signature.forum.buttons.edit')}
         </Button>
       );
 

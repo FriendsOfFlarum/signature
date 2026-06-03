@@ -1,6 +1,6 @@
 <?php
 
-namespace katosdev\Signature\Event;
+namespace FoF\Signature\Event;
 
 use Flarum\User\User;
 

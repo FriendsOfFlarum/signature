@@ -1,15 +1,15 @@
 <?php
 
-namespace katosdev\Signature\Api;
+namespace FoF\Signature\Api;
 
 use Flarum\Api\Serializer\UserSerializer;
 use Flarum\User\User;
-use katosdev\Signature\Formatter\SignatureFormatter;
+use FoF\Signature\Formatter\SignatureFormatter;
 
 class AddUserAttributes
 {
-    protected $formatter;
-    
+    protected SignatureFormatter $formatter;
+
     public function __construct(SignatureFormatter $formatter)
     {
         $this->formatter = $formatter;

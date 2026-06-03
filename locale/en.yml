@@ -1,4 +1,4 @@
-signature:
+fof-signature:
     forum:
         buttons:
             signature: Signature
@@ -7,6 +7,11 @@ signature:
         errors:
              max_char_limit_exceed: Maximum character limit exceeded.
              max_image_count_exceed: Maximum image count exceeded.
+             save_failed: Something went wrong while saving your signature.
+        editor:
+            placeholder: Edit your signature here
+        settings:
+            heading: Signature
         profile:
             click: Click to write your signature
     admin:

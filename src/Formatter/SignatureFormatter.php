@@ -1,6 +1,6 @@
 <?php
 
-namespace katosdev\Signature\Formatter;
+namespace FoF\Signature\Formatter;
 
 use Flarum\Extension\ExtensionManager;
 use Flarum\Formatter\Formatter;
@@ -22,7 +22,7 @@ class SignatureFormatter extends Formatter
 
     protected function getComponent($name)
     {
-        $formatter = $this->cache->rememberForever('katosdev-signature.formatter', function () {
+        $formatter = $this->cache->rememberForever('fof-signature.formatter', function () {
             return $this->getConfigurator()->finalize();
         });
 
@@ -55,8 +55,8 @@ class SignatureFormatter extends Formatter
         return $configurator;
     }
 
-    public function flush()
+    public function flush(): void
     {
-        $this->cache->forget('katosdev-signature.formatter');
+        $this->cache->forget('fof-signature.formatter');
     }
 }

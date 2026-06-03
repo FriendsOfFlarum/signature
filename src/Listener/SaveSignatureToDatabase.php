@@ -1,6 +1,6 @@
 <?php
 
-namespace katosdev\Signature\Listener;
+namespace FoF\Signature\Listener;
 
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\Event\Saving;
@@ -8,10 +8,10 @@ use Flarum\User\User;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use katosdev\Signature\Event\SignatureSaved;
-use katosdev\Signature\Event\SignatureSaving;
-use katosdev\Signature\Formatter\SignatureFormatter;
-use katosdev\Signature\Validator\SignatureValidator;
+use FoF\Signature\Event\SignatureSaved;
+use FoF\Signature\Event\SignatureSaving;
+use FoF\Signature\Formatter\SignatureFormatter;
+use FoF\Signature\Validator\SignatureValidator;
 
 class SaveSignatureToDatabase
 {
@@ -43,7 +43,7 @@ class SaveSignatureToDatabase
         $this->formatter = $formatter;
     }
 
-    public function handle(Saving $event)
+    public function handle(Saving $event): void
     {
         $attributes = Arr::get($event->data, 'attributes', []);
         if (!Arr::exists($attributes, 'signature')) {
@@ -57,7 +57,7 @@ class SaveSignatureToDatabase
         $this->processSignature($attributes, $user, $actor);
     }
 
-    protected function processSignature($attributes, User $user, User $actor): void
+    protected function processSignature(array $attributes, User $user, User $actor): void
     {
         $this->validator->assertValid(Arr::only($attributes, 'signature'));
         $signature = Str::of(Arr::get($attributes, 'signature'))->trim();

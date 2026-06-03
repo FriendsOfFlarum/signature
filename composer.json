@@ -1,43 +1,39 @@
 {
-    "name": "katosdev/signature",
+    "name": "fof/signature",
     "description": "Adds signature support to your Flarum forum.",
     "authors": [
         {
-            "name": "Katos",
-            "email": "Katos@creatorswave.com"
+            "name": "FriendsOfFlarum",
+            "email": "hello@flarum.org"
         }
     ],
     "type": "flarum-extension",
     "license": "MIT",
     "support": {
-        "source": "https://github.com/katosdev/signature",
-        "issues": "https://github.com/katosdev/signature/issues",
+        "source": "https://github.com/FriendsOfFlarum/signature",
+        "issues": "https://github.com/FriendsOfFlarum/signature/issues",
         "forum": "https://discuss.flarum.org/d/28108"
     },
-    "funding": [
-        {
-            "type": "website",
-            "url": "https://www.buymeacoffee.com/katos"
-        }
-    ],
+    "replace": {
+        "katosdev/signature": "*"
+    },
     "require": {
-        "flarum/core": "^1.7.0",
-        "symfony/dom-crawler": "^5.0 || ^6.0.2",
-        "symfony/css-selector": "^5.0 || ^6.0.2"
+        "php": "^8.2",
+        "flarum/core": "^1.8.0"
     },
     "autoload": {
         "psr-4": {
-            "katosdev\\Signature\\": "src/"
+            "FoF\\Signature\\": "src/"
         }
     },
     "extra": {
         "flarum-extension": {
-            "title": "Signature",
+            "title": "FoF Signature",
             "category": "feature",
             "icon": {
                 "name": "fas fa-pen-square",
-                "backgroundColor": "#f55c7a",
-                "color": "#ffffff"
+                "backgroundColor": "#e74c3c",
+                "color": "#fff"
             }
         },
         "flarum-cli": {
@@ -73,7 +69,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "katosdev\\Signature\\Tests\\": "tests/"
+            "FoF\\Signature\\Tests\\": "tests/"
         }
     }
 }

@@ -2,7 +2,6 @@ import Component, { ComponentAttrs } from 'flarum/common/Component';
 import User from 'flarum/common/models/User';
 import app from 'flarum/forum/app';
 import TextEditor from 'flarum/common/components/TextEditor';
-import Button from 'flarum/common/components/Button';
 import Stream from 'flarum/common/utils/Stream';
 import SignatureState from '../states/SignatureState';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
@@ -40,14 +39,16 @@ export default class Signature extends Component<SignatureAttrs> {
           <TextEditor
             value={this.signatureState.content()}
             onchange={this.signatureState.content}
-            placeholder="Edit your signature here"
+            placeholder={app.translator.trans('fof-signature.forum.editor.placeholder')}
             composer={this.signatureState}
-            submitLabel={app.translator.trans('signature.forum.buttons.save')}
+            submitLabel={app.translator.trans('fof-signature.forum.buttons.save')}
             onsubmit={this.onEditorSubmit.bind(this)}
           />
         </div>
       );
     }
+
+    return null;
   }
 
   onEditorSubmit() {
@@ -57,7 +58,7 @@ export default class Signature extends Component<SignatureAttrs> {
   renderSignature() {
     return (
       <div className="Signature-content" onclick={this.edit.bind(this)}>
-        {!this.user.signature() ? <p>{app.translator.trans('signature.forum.profile.click')}</p> : m.trust(this.user.signatureHtml())}
+        {!this.user.signature() ? <p>{app.translator.trans('fof-signature.forum.profile.click')}</p> : m.trust(this.user.signatureHtml())}
       </div>
     );
   }
@@ -81,11 +82,9 @@ export default class Signature extends Component<SignatureAttrs> {
         this.signatureState.toggleEditing();
         m.redraw();
       })
-      .catch((error) => {
+      .catch(() => {
         this.loading = false;
-        // Provide specific feedback to the user
-        console.error(error);
-        alert('Error saving signature'); // Replace with a more user-friendly error handling
+        app.alerts.show({ type: 'error' }, app.translator.trans('fof-signature.forum.errors.save_failed'));
         m.redraw();
       });
   }

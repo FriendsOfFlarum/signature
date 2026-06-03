@@ -1,6 +1,6 @@
 <?php
 
-namespace katosdev\Signature;
+namespace FoF\Signature;
 
 use Flarum\Extend;
 use Flarum\User\User;

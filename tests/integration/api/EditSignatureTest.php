@@ -1,6 +1,6 @@
 <?php
 
-namespace katosdev\Signature\Tests\integration\api;
+namespace FoF\Signature\Tests\integration\api;
 
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
@@ -14,7 +14,7 @@ class EditSignatureTest extends TestCase
     {
         parent::setUp();
 
-        $this->extension('katosdev-signature');
+        $this->extension('fof-signature');
 
         $this->prepareDatabase([
             'users' => [

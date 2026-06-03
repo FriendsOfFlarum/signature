@@ -1,18 +1,18 @@
 <?php
 
-namespace katosdev\Signature\Validator;
+namespace FoF\Signature\Validator;
 
 use Flarum\Foundation\AbstractValidator;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Contracts\Validation\Factory;
-use katosdev\Signature\Formatter\SignatureFormatter;
-use Symfony\Component\DomCrawler\Crawler;
+use DOMDocument;
+use FoF\Signature\Formatter\SignatureFormatter;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SignatureValidator extends AbstractValidator
 {
-    protected $settings;
-    protected $formatter;
+    protected SettingsRepositoryInterface $settings;
+    protected SignatureFormatter $formatter;
 
     public function __construct(Factory $validator, TranslatorInterface $translator, SettingsRepositoryInterface $settings, SignatureFormatter $formatter)
     {
@@ -37,21 +37,25 @@ class SignatureValidator extends AbstractValidator
         ];
     }
 
-    private function validateSignatureImages($value)
+    private function validateSignatureImages(string $value): bool
     {
         $parsedContent = $this->formatter->parse($value);
 
-        // Create a Crawler instance for the XML content
-        $crawler = new Crawler($parsedContent);
-
-        // Filter for image tags - adjust the selector if needed based on your XML structure
-        $images = $crawler->filter('img'); // Adjust the selector if your XML structure requires it
-
-        // Image count check
-        if ($images->count() > (int) $this->settings->get('signature.maximum_image_count')) {
-            return false;
+        if ($parsedContent === '') {
+            return true;
         }
 
-        return true;
+        $document = new DOMDocument();
+
+        // The parsed content is TextFormatter's XML representation, which may not
+        // be a fully valid HTML document. Suppress libxml warnings while loading.
+        $previous = libxml_use_internal_errors(true);
+        $document->loadHTML($parsedContent, LIBXML_NOERROR | LIBXML_NOWARNING);
+        libxml_clear_errors();
+        libxml_use_internal_errors($previous);
+
+        $imageCount = $document->getElementsByTagName('img')->length;
+
+        return $imageCount <= (int) $this->settings->get('signature.maximum_image_count');
     }
 }
