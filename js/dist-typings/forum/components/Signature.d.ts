@@ -13,7 +13,7 @@ export default class Signature extends Component<SignatureAttrs> {
     loading: boolean;
     oninit(vnode: Mithril.Vnode<SignatureAttrs, this>): void;
     view(): JSX.Element;
-    renderEditor(): JSX.Element | undefined;
+    renderEditor(): JSX.Element | null;
     onEditorSubmit(): void;
     renderSignature(): JSX.Element;
     edit(): void;
