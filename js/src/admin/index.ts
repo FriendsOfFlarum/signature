@@ -1,7 +1,7 @@
 import app from 'flarum/admin/app';
 
 app.initializers.add('fof-signature', () => {
-  app.extensionData
+  app.registry
     .for('fof-signature')
     .registerSetting({
       setting: 'signature.maximum_image_count',
