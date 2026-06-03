@@ -1,22 +1,31 @@
 <?php
 
+/*
+ * This file is part of fof/signature.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\Signature;
 
-use Flarum\Extend;
-use Flarum\User\User;
 use Flarum\Api\Serializer\UserSerializer;
+use Flarum\Extend;
 use Flarum\User\Event\Saving as UserSaving;
+use Flarum\User\User;
 
 return [
     (new Extend\Frontend('forum'))
-        ->js(__DIR__ . '/js/dist/forum.js')
-        ->css(__DIR__ . '/less/forum.less')
+        ->js(__DIR__.'/js/dist/forum.js')
+        ->css(__DIR__.'/less/forum.less')
         ->route('/u:username/signature', 'user.signature'),
 
     (new Extend\Frontend('admin'))
-        ->js(__DIR__ . '/js/dist/admin.js'),
+        ->js(__DIR__.'/js/dist/admin.js'),
 
-    new Extend\Locales(__DIR__ . '/locale'),
+    new Extend\Locales(__DIR__.'/locale'),
 
     (new Extend\ApiSerializer(UserSerializer::class))
         ->attributes(Api\AddUserAttributes::class),

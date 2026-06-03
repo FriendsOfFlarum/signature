@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of fof/signature.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\Signature\Access;
 
 use Flarum\User\Access\AbstractPolicy;
@@ -12,7 +21,7 @@ class UserPolicy extends AbstractPolicy
         if ($user->isAdmin() && !$actor->isAdmin()) {
             return $this->deny();
         }
-        
+
         if (($actor->id === $user->id && $user->hasPermission('haveSignature')) || $actor->hasPermission('moderateSignature')) {
             return $this->allow();
         }

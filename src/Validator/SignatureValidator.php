@@ -1,12 +1,21 @@
 <?php
 
+/*
+ * This file is part of fof/signature.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\Signature\Validator;
 
+use DOMDocument;
 use Flarum\Foundation\AbstractValidator;
 use Flarum\Settings\SettingsRepositoryInterface;
-use Illuminate\Contracts\Validation\Factory;
-use DOMDocument;
 use FoF\Signature\Formatter\SignatureFormatter;
+use Illuminate\Contracts\Validation\Factory;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SignatureValidator extends AbstractValidator
@@ -31,7 +40,7 @@ class SignatureValidator extends AbstractValidator
         return [
             'signature' => [
                 'string',
-                'max:' . $this->settings->get('signature.maximum_char_limit'),
+                'max:'.$this->settings->get('signature.maximum_char_limit'),
                 'signature_images',
             ],
         ];

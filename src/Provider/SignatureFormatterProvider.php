@@ -1,13 +1,22 @@
 <?php
 
+/*
+ * This file is part of fof/signature.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\Signature\Provider;
 
 use Flarum\Extension\ExtensionManager;
 use Flarum\Foundation\AbstractServiceProvider;
 use Flarum\Foundation\Paths;
+use FoF\Signature\Formatter\SignatureFormatter;
 use Illuminate\Cache\Repository;
 use Illuminate\Contracts\Container\Container;
-use FoF\Signature\Formatter\SignatureFormatter;
 
 class SignatureFormatterProvider extends AbstractServiceProvider
 {

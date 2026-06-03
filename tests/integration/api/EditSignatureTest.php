@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of fof/signature.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\Signature\Tests\integration\api;
 
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
@@ -9,7 +18,7 @@ use Flarum\User\User;
 class EditSignatureTest extends TestCase
 {
     use RetrievesAuthorizedUsers;
-    
+
     public function setUp(): void
     {
         parent::setUp();
@@ -44,10 +53,12 @@ class EditSignatureTest extends TestCase
     public function user_can_edit_own_signature_when_allowed_to_have_one()
     {
         $response = $this->send(
-            $this->request('PATCH', '/api/users/5',
+            $this->request(
+                'PATCH',
+                '/api/users/5',
                 [
                     'authenticatedAs' => 5,
-                    'json' => [
+                    'json'            => [
                         'data' => [
                             'attributes' => [
                                 'signature' => 'This is my new signature',
@@ -75,10 +86,12 @@ class EditSignatureTest extends TestCase
     public function user_with_edit_permission_cannot_edit_admin_signature()
     {
         $response = $this->send(
-            $this->request('PATCH', '/api/users/6',
+            $this->request(
+                'PATCH',
+                '/api/users/6',
                 [
                     'authenticatedAs' => 5,
-                    'json' => [
+                    'json'            => [
                         'data' => [
                             'attributes' => [
                                 'signature' => 'This is my new signature',

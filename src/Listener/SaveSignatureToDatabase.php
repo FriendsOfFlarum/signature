@@ -1,17 +1,26 @@
 <?php
 
+/*
+ * This file is part of fof/signature.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\Signature\Listener;
 
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\Event\Saving;
 use Flarum\User\User;
-use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use FoF\Signature\Event\SignatureSaved;
 use FoF\Signature\Event\SignatureSaving;
 use FoF\Signature\Formatter\SignatureFormatter;
 use FoF\Signature\Validator\SignatureValidator;
+use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class SaveSignatureToDatabase
 {
@@ -80,7 +89,7 @@ class SaveSignatureToDatabase
     protected function checkPermissions(User $actor, User $user): void
     {
         $user->assertCan('haveSignature');
-        
+
         if ($actor->id !== $user->id) {
             $actor->assertCan('moderateSignature');
         }
