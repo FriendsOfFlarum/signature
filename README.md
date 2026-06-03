@@ -1,4 +1,4 @@
-# Signature
+# FoF Signature
 
 [![Latest Stable Version](https://img.shields.io/packagist/v/fof/signature.svg)](https://packagist.org/packages/fof/signature)
 [![Total Downloads](https://img.shields.io/packagist/dt/fof/signature.svg)](https://packagist.org/packages/fof/signature)

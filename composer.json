@@ -12,7 +12,7 @@
     "support": {
         "source": "https://github.com/FriendsOfFlarum/signature",
         "issues": "https://github.com/FriendsOfFlarum/signature/issues",
-        "forum": "https://discuss.flarum.org/d/28108"
+        "forum": "https://discuss.flarum.org/d/39372"
     },
     "replace": {
         "katosdev/signature": "*"
