@@ -2,4 +2,5 @@ vendor
 composer.lock
 node_modules
 .phpunit.result.cache
+.phpunit.cache
 .claude

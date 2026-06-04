@@ -9,13 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace FoF\Signature\Event;
+use Flarum\Database\Migration;
+use Flarum\Group\Group;
 
-use Flarum\User\User;
-
-abstract class AbstractSignatureEvent
-{
-    public function __construct(public User $user, public ?User $actor = null)
-    {
-    }
-}
+return Migration::addPermissions([
+    'moderateSignature' => Group::MODERATOR_ID,
+    'haveSignature'     => Group::MEMBER_ID,
+]);

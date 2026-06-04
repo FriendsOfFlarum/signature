@@ -3,17 +3,17 @@
     flex-direction: column;
     align-items: flex-start; // Align items to the start of the flex container
     padding: 20px;
-    background: @control-bg;
-    border-radius: @border-radius;
-    box-shadow: 0 2px 4px @shadow-color;
+    background: var(--control-bg);
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 4px var(--shadow-color);
     margin-bottom: 20px; // Spacing from the next element
     max-width: 100%; // Prevents the editor from overflowing its container
   
     .TextEditor {
       width: 100%; // Ensure the editor takes the full width
       margin-bottom: 10px; // Spacing between editor and button
-      border: 1px solid darken(@control-bg, 5%);
-      border-radius: @border-radius;
+      border: 1px solid var(--control-bg-darken-5);
+      border-radius: var(--border-radius);
 
       &-controls {
         margin: unset;
@@ -22,7 +22,7 @@
       // Specific styling for the toolbar if needed
     //   .TextEditor-toolbar {
     //     border-bottom: 1px solid darken(@control-bg, 5%);
-    //     background-color: lighten(@control-bg, 5%);
+    //     background-color: var(--control-bg-lighten-5);
     //     padding: 0 8px; // Padding inside the toolbar for better alignment
     //   }
   
@@ -34,12 +34,12 @@
     }
   
     // .Button {
-    //   background-color: @primary-color;
-    //   color: @body-bg;
+    //   background-color: var(--primary-color);
+    //   color: var(--body-bg);
     //   border: none;
     //   padding: 10px 20px;
     //   margin-top: 10px;
-    //   border-radius: @border-radius;
+    //   border-radius: var(--border-radius);
     //   cursor: pointer;
     //   transition: background-color 0.2s;
     //   align-self: center; // Align the button to the center of the flex container
@@ -70,3 +70,12 @@
     }
   }
   
+
+[data-theme^=light] {
+  --control-bg-darken-5: darken(@control-bg-light, 5%);
+  --control-bg-lighten-5: lighten(@control-bg-light, 5%);
+}
+[data-theme^=dark] {
+  --control-bg-darken-5: darken(@control-bg-dark, 5%);
+  --control-bg-lighten-5: lighten(@control-bg-dark, 5%);
+}
