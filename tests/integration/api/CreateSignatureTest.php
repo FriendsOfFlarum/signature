@@ -11,11 +11,11 @@
 
 namespace FoF\Signature\Tests\integration\api;
 
+use Flarum\Group\Group;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
 use Flarum\User\User;
 use PHPUnit\Framework\Attributes\Test;
-use Flarum\Group\Group;
 
 class CreateSignatureTest extends TestCase
 {

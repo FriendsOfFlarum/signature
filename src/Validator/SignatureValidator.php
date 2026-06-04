@@ -84,7 +84,7 @@ class SignatureValidator extends AbstractValidator
             // Any host that isn't the forum's own or an explicitly allowed one
             // (e.g. a CDN) is off-site and would leak viewers' IPs to a third
             // party, so the signature is rejected.
-            if (! in_array(strtolower($host), $allowedHosts, true)) {
+            if (!in_array(strtolower($host), $allowedHosts, true)) {
                 return false;
             }
         }
