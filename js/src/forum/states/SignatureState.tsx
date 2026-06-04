@@ -1,6 +1,6 @@
 import Stream from 'flarum/common/utils/Stream';
 
-class SignatureState {
+export default class SignatureState {
   // The content of the signature
   content: Stream<string>;
 
@@ -22,5 +22,3 @@ class SignatureState {
     this.editing = !this.editing;
   }
 }
-
-export default SignatureState;

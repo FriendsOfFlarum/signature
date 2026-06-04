@@ -11,14 +11,11 @@
 
 namespace FoF\Signature;
 
-use Flarum\Api\Serializer\UserSerializer;
+use Flarum\Api\Resource\UserResource;
 use Flarum\Extend;
-use Flarum\User\Event\Saving as UserSaving;
+use Flarum\Extension\Event\Disabled;
+use Flarum\Extension\Event\Enabled;
 use Flarum\User\User;
-use Flarum\Api\Context;
-use Flarum\Api\Endpoint;
-use Flarum\Api\Resource;
-use Flarum\Api\Schema;
 
 return [
     (new Extend\Frontend('forum'))
@@ -31,16 +28,20 @@ return [
 
     new Extend\Locales(__DIR__.'/locale'),
 
-    // @TODO: Replace with the new implementation https://docs.flarum.org/2.x/extend/api#extending-api-resources
-    (new Extend\ApiSerializer(UserSerializer::class))
-        ->attributes(Api\AddUserAttributes::class),
+    (new Extend\ApiResource(UserResource::class))
+        ->fields(Api\AddUserAttributes::class),
 
+    // Rebuild the cached signature formatter when a formatting extension is
+    // toggled, so signatures pick up the new BBCode/Markdown configuration.
     (new Extend\Event())
-        ->listen(UserSaving::class, Listener\SaveSignatureToDatabase::class),
+        ->listen(Enabled::class, Listener\FlushFormatterCache::class)
+        ->listen(Disabled::class, Listener\FlushFormatterCache::class),
 
     (new Extend\Settings())
         ->default('signature.maximum_char_limit', 500)
         ->default('signature.maximum_image_count', 2)
+        ->default('signature.allow_remote_images', true)
+        ->default('signature.allowed_image_hosts', '')
         ->default('signature.allow_inline_editing', false)
         ->serializeToForum('allowInlineEditing', 'signature.allow_inline_editing', 'boolval'),
 
@@ -52,4 +53,13 @@ return [
 
     (new Extend\ServiceProvider())
         ->register(Provider\SignatureFormatterProvider::class),
+
+    // Optional GDPR integration. The signature column is exported and cleared
+    // by the core user data type; registering this type declares `signature`
+    // as PII and surfaces it in the GDPR data-handling overview.
+    (new Extend\Conditional())
+        ->whenExtensionEnabled('flarum-gdpr', fn () => [
+            (new \Flarum\Gdpr\Extend\UserData())
+                ->addType(Data\SignatureData::class),
+        ]),
 ];

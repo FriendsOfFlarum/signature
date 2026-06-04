@@ -47,6 +47,14 @@ class CreateSignatureTest extends TestCase
                 ['user_id' => 4, 'group_id' => 4],
             ],
         ]);
+
+        // The bundled default-permissions migration grants `haveSignature` to
+        // all members. Revoke that default here so the seeded group permissions
+        // fully determine which users may have a signature of their own.
+        $this->database()->table('group_permission')
+            ->where('permission', 'haveSignature')
+            ->where('group_id', Group::MEMBER_ID)
+            ->delete();
     }
 
     #[Test]
@@ -171,7 +179,7 @@ class CreateSignatureTest extends TestCase
     }
 
     #[Test]
-    public function user_with_permission_cannot_create_signature_for_other_user_who_cannot_have_signature()
+    public function user_with_permission_can_create_signature_for_other_user_who_cannot_have_signature()
     {
         $response = $this->send(
             $this->request(
@@ -190,10 +198,65 @@ class CreateSignatureTest extends TestCase
             )
         );
 
-        $this->assertEquals(403, $response->getStatusCode(), 'Expecting a permission denied 403');
+        // A moderator (moderateSignature) may set a signature for another user
+        // regardless of whether that user can have one themselves.
+        $this->assertEquals(200, $response->getStatusCode());
 
         $user = User::find(2);
 
-        $this->assertNull($user->signature);
+        $this->assertEquals('<t>This is my signature</t>', $user->signature);
+    }
+
+    #[Test]
+    public function moderator_can_edit_signature_of_user_who_cannot_have_signature()
+    {
+        $response = $this->send(
+            $this->request('GET', '/api/users/2', ['authenticatedAs' => 4])
+        );
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $json = json_decode($response->getBody()->getContents(), true);
+
+        // A moderator can edit any user's signature, so the edit UI is offered
+        // even for a user who cannot have a signature of their own.
+        $this->assertTrue($json['data']['attributes']['canEditSignature']);
+    }
+
+    #[Test]
+    public function moderator_can_edit_signature_of_user_who_can_have_signature()
+    {
+        $response = $this->send(
+            $this->request('GET', '/api/users/5', ['authenticatedAs' => 4])
+        );
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $json = json_decode($response->getBody()->getContents(), true);
+
+        $this->assertTrue($json['data']['attributes']['canEditSignature']);
+    }
+
+    #[Test]
+    public function image_syntax_is_not_counted_when_no_formatter_is_enabled()
+    {
+        // No formatting extension (Markdown/BBCode) is enabled in this test, so
+        // image markup stays plain text and never produces an <IMG> tag. The
+        // image limit must therefore be a no-op rather than wrongly rejecting
+        // text that merely looks like image markup.
+        $response = $this->send(
+            $this->request('PATCH', '/api/users/5', [
+                'authenticatedAs' => 5,
+                'json'            => [
+                    'data' => [
+                        'attributes' => [
+                            'signature' => '![one](https://example.com/1.png) ![two](https://example.com/2.png) ![three](https://example.com/3.png)',
+                        ],
+                    ],
+                ],
+            ])
+        );
+
+        $this->assertEquals(200, $response->getStatusCode(), $response->getBody());
     }
 }

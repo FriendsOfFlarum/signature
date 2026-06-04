@@ -14,6 +14,9 @@ namespace FoF\Signature\Tests\integration\api;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
 use Flarum\User\User;
+use FoF\Signature\Event\SignatureSaved;
+use FoF\Signature\Event\SignatureSaving;
+use Illuminate\Contracts\Events\Dispatcher;
 use PHPUnit\Framework\Attributes\Test;
 use Flarum\Group\Group;
 
@@ -105,5 +108,68 @@ class EditSignatureTest extends TestCase
         $user = User::find(6);
 
         $this->assertEquals('too-obscure4', $user->signature);
+    }
+
+    #[Test]
+    public function user_can_clear_their_signature()
+    {
+        $response = $this->send(
+            $this->request(
+                'PATCH',
+                '/api/users/5',
+                [
+                    'authenticatedAs' => 5,
+                    'json'            => [
+                        'data' => [
+                            'attributes' => [
+                                'signature' => '',
+                            ],
+                        ],
+                    ],
+                ]
+            )
+        );
+
+        $this->assertEquals(200, $response->getStatusCode(), $response->getBody());
+
+        $this->assertNull(User::find(5)->signature);
+    }
+
+    #[Test]
+    public function events_are_dispatched_when_a_signature_changes()
+    {
+        $events = $this->app()->getContainer()->make(Dispatcher::class);
+
+        $saving = false;
+        $saved = false;
+
+        $events->listen(SignatureSaving::class, function () use (&$saving) {
+            $saving = true;
+        });
+        $events->listen(SignatureSaved::class, function () use (&$saved) {
+            $saved = true;
+        });
+
+        $response = $this->send(
+            $this->request(
+                'PATCH',
+                '/api/users/5',
+                [
+                    'authenticatedAs' => 5,
+                    'json'            => [
+                        'data' => [
+                            'attributes' => [
+                                'signature' => 'A brand new signature',
+                            ],
+                        ],
+                    ],
+                ]
+            )
+        );
+
+        $this->assertEquals(200, $response->getStatusCode(), $response->getBody());
+
+        $this->assertTrue($saving, 'SignatureSaving should be dispatched');
+        $this->assertTrue($saved, 'SignatureSaved should be dispatched');
     }
 }

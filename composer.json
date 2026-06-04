@@ -18,8 +18,7 @@
         "katosdev/signature": "*"
     },
     "require": {
-        "php": "^8.2",
-        "flarum/core": "^2.0.0-beta"
+        "flarum/core": "^2.0.0"
     },
     "autoload": {
         "psr-4": {
@@ -34,7 +33,10 @@
                 "name": "fas fa-pen-square",
                 "backgroundColor": "#e74c3c",
                 "color": "#fff"
-            }
+            },
+            "optional-dependencies": [
+                "flarum/gdpr"
+            ]
         },
         "flarum-cli": {
             "modules": {
@@ -44,10 +46,11 @@
         }
     },
     "require-dev": {
-        "flarum/phpstan": "^2.0.0-beta",
-        "flarum/testing": "^2.0.0-beta",
+        "flarum/phpstan": "^2.0.0",
+        "flarum/testing": "^2.0.0",
         "flarum/bbcode": "*",
-        "flarum/markdown": "*"
+        "flarum/markdown": "*",
+        "flarum/gdpr": "*"
     },
     "scripts": {
         "analyse:phpstan": "phpstan analyse",
@@ -71,5 +74,7 @@
         "psr-4": {
             "FoF\\Signature\\Tests\\": "tests/"
         }
-    }
+    },
+    "minimum-stability": "beta",
+    "prefer-stable": true
 }
