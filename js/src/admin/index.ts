@@ -21,6 +21,12 @@ app.initializers.add('fof-signature', () => {
       label: app.translator.trans('fof-signature.admin.settings.allow_inline_editing.description'),
       help: app.translator.trans('fof-signature.admin.settings.allow_inline_editing.help'),
     })
+    .registerSetting({
+      setting: 'signature.classic_look',
+      type: 'boolean',
+      label: app.translator.trans('fof-signature.admin.settings.classic_look.description'),
+      help: app.translator.trans('fof-signature.admin.settings.classic_look.help'),
+    })
     .registerPermission(
       {
         permission: 'moderateSignature',
