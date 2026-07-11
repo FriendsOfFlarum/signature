@@ -33,6 +33,12 @@ export default [
       label: app.translator.trans('fof-signature.admin.settings.allow_inline_editing.description'),
       help: app.translator.trans('fof-signature.admin.settings.allow_inline_editing.help'),
     }))
+    .setting(() => ({
+      setting: 'signature.classic_look',
+      type: 'switch',
+      label: app.translator.trans('fof-signature.admin.settings.classic_look.description'),
+      help: app.translator.trans('fof-signature.admin.settings.classic_look.help'),
+    }))
     .permission(
       () => ({
         permission: 'moderateSignature',

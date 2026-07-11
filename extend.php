@@ -43,7 +43,9 @@ return [
         ->default('signature.allow_remote_images', true)
         ->default('signature.allowed_image_hosts', '')
         ->default('signature.allow_inline_editing', false)
-        ->serializeToForum('allowInlineEditing', 'signature.allow_inline_editing', 'boolval'),
+        ->default('signature.classic_look', false)
+        ->serializeToForum('allowInlineEditing', 'signature.allow_inline_editing', 'boolval')
+        ->serializeToForum('classicLook', 'signature.classic_look', 'boolval'),
 
     (new Extend\Model(User::class))
         ->cast('signature', 'string'),

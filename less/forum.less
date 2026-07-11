@@ -4,11 +4,14 @@
   padding-top: inherit;
 }
 
+.Post-signature {
+  clear: both;
+}
+
 // Signature shown beneath a post. Visually subordinate to the post body:
 // a left accent bar, smaller muted text, and constrained images so it
 // reads as a signature rather than a continuation of the post.
-.Post-signature {
-  clear: both;
+.Post-signature:not(.Post-signature--classic) {
   margin-top: 15px;
   padding-left: 12px;
   border-left: 3px solid var(--primary-color);
@@ -56,4 +59,3 @@
     }
   }
 }
-
