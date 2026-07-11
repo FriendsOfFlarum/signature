@@ -9,9 +9,11 @@ export default function extendCommentPost() {
 
     if (user && user.signature()) {
       const allowInlineEditing = app.forum.attribute<boolean>('allowInlineEditing') || false;
+      const classicLook = app.forum.attribute<boolean>('classicLook') || false;
+      const className = classicLook ? 'Post-signature Post-signature--classic' : 'Post-signature';
 
       content.push(
-        <div className="Post-signature">
+        <div className={className}>
           <Signature user={user} readonly={!allowInlineEditing} />
         </div>
       );
