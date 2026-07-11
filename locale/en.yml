@@ -35,3 +35,6 @@ fof-signature:
             allow_inline_editing:
                 description : Inline editing of signature.
                 help: When enabled, users can edit their signature while viewing a post.
+            classic_look:
+                description: Classic Look
+                help: Use the classic signature appearance.
